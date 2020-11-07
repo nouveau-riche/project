@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../authentication/authenticate.dart';
+import '../authentication/authenticate.dart';
 
 class MyProfile extends StatelessWidget {
   @override
