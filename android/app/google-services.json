@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "582832311404",
+    "firebase_url": "https://otg-carwash.firebaseio.com",
+    "project_id": "otg-carwash",
+    "storage_bucket": "otg-carwash.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:582832311404:android:128f0e4e6972b538a6dc49",
+        "android_client_info": {
+          "package_name": "com.nikunj.carwash"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "582832311404-itkc22j2g5comvif7espa82c7u9enqi9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJfx_UMxJ_-AM88uYKzrhF_lXHb29MnkQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "582832311404-itkc22j2g5comvif7espa82c7u9enqi9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
