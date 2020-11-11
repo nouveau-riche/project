@@ -6,8 +6,8 @@ import './screens/authentication_screen/login_screen.dart';
 import './screens/authentication_screen/password_screen.dart';
 import './screens/authentication_screen/email_screen.dart';
 import './screens/authentication_screen/reset-password-screen.dart';
+import './screens/select_plan_screen.dart';
 import './screens/my_profile.dart';
-import './screens/home_page.dart';
 import './screens/tabs_screen.dart';
 
 void main() async {
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget{
         '/email-screen': (ctx) => EmailScreen(),
         '/password-screen': (ctx) => PasswordScreen(),
         '/reset-password-screen': (ctx) => ResetPasswordScreen(),
-        '/choose_service-screen': (ctx) => HomePage(),
         '/my-profile-screen': (ctx) => MyProfile(),
+        '/select-plan-screen': (ctx) => SelectPlanScreen(),
       },
     );
   }

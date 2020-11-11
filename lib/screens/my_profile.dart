@@ -39,6 +39,7 @@ class _MyProfileState extends State<MyProfile> {
       });
       String url = await uploadImageToFirebaseStorage(user.uid, image);
       final ref = FirebaseFirestore.instance.collection('users').doc(user.uid);
+      user.updateProfile(photoURL: url);
       await ref.update({
         updateType: url,
       });
@@ -62,6 +63,7 @@ class _MyProfileState extends State<MyProfile> {
       });
       String url = await uploadImageToFirebaseStorage(user.uid, image);
       final ref = FirebaseFirestore.instance.collection('users').doc(user.uid);
+      user.updateProfile(photoURL: url);
       await ref.update({
         updateType: url,
       });
