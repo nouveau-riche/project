@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../../Http_Exception.dart';
+import '../../utility/Http_Exception.dart';
 import '../../authentication/authenticate.dart';
 
 class Login extends StatefulWidget {
@@ -46,11 +46,11 @@ class _LoginState extends State<Login> {
         await signIn(context, __email, __password);
       } on HttpException catch (error) {
         var errorMessage = 'Failed! Try again Later';
-        if (error.toString().contains('ERROR_WRONG_PASSWORD')) {
+        if (error.toString().contains('password is invalid')) {
           errorMessage = 'Opps! Wrong Password';
         } else if (error.toString().contains('ERROR_TOO_MANY_REQUESTS')) {
           errorMessage = 'Too many requests. Try again Later!';
-        } else if (error.toString().contains('ERROR_USER_NOT_FOUND')) {
+        } else if (error.toString().contains('no user record corresponding to this identifier')) {
           errorMessage = 'User not Registered';
         }
         snackBar(errorMessage);

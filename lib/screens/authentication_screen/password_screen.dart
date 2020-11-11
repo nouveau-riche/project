@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../authentication/authenticate.dart';
-import '../../Http_Exception.dart';
+import '../../utility/Http_Exception.dart';
 
 class PasswordScreen extends StatefulWidget {
   @override

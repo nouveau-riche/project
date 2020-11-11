@@ -264,7 +264,7 @@ class _MyProfileState extends State<MyProfile> {
         child: Text('Log Out'),
         onPressed: () {
           signOut().whenComplete(() => Navigator.of(context)
-              .pushNamedAndRemoveUntil('login-screen', (route) => false));
+              .pushNamedAndRemoveUntil('/login-screen', (route) => false));
         },
       ),
     );

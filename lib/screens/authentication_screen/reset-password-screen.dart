@@ -33,23 +33,21 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: Scaffold(
-        key: _scaffoldKey,
-        backgroundColor: Theme.of(context).primaryColor,
-        body: Column(
-          children: <Widget>[
-            buildInstructionContainer(mq.height * 0.07, mq.width),
-            SizedBox(height: mq.height * 0.028),
-            buildEmailField(mq.width * 0.85, mq.height * 0.032),
-            SizedBox(height: mq.height * 0.028),
-            isLoading
-                ? SpinKitCubeGrid(
-                    color: Colors.lightGreenAccent,
-                  )
-                : buildResetButton(mq.width * 0.85, mq.height * 0.055),
-          ],
-        ),
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(elevation: 0,),
+      body: Column(
+        children: <Widget>[
+          buildInstructionContainer(mq.height * 0.07, mq.width),
+          SizedBox(height: mq.height * 0.028),
+          buildEmailField(mq.width * 0.85, mq.height * 0.032),
+          SizedBox(height: mq.height * 0.028),
+          isLoading
+              ? SpinKitCubeGrid(
+                  color: Colors.lightGreenAccent,
+                )
+              : buildResetButton(mq.width * 0.85, mq.height * 0.055),
+        ],
       ),
     );
   }
@@ -59,7 +57,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       width: width,
       margin: EdgeInsets.symmetric(horizontal: margin),
       child: TextField(
-        style: const TextStyle(color: Colors.white),
         cursorColor: Colors.grey,
         decoration: InputDecoration(
           hintText: 'Email',
@@ -104,13 +101,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 resetPasswordWithEmail(email);
                 Navigator.of(context).pushReplacementNamed('/login-screen');
               } catch (error) {
+                print(error);
                 showErrorScaffold('Something went Wrong!');
               }
             } else {
               showErrorScaffold('Enter Valid Email');
             }
           },
-          color: Colors.lightGreenAccent,
+          color: Color.fromRGBO(92, 202, 250, 1),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ));

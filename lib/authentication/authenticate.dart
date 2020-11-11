@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../http_exception.dart';
+import '../utility/Http_Exception.dart';
 import '../database/database.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
