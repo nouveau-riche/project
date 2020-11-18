@@ -32,7 +32,10 @@ dependencies:
   http: ^0.12.2
   image_picker: ^0.6.7+12
   carousel_slider: ^2.3.1
-  razorpay_flutter: ^1.2.2
+  #razorpay_flutter: ^1.2.2
+  fluttertoast: ^7.1.1
+  timeago: ^2.0.26
+  font_awesome_flutter: ^8.10.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -62,6 +65,8 @@ flutter:
     - assets/images/image2.jpg
     - assets/images/image3.jpg
     - assets/images/image4.jpg
+    - assets/images/sticker.jpg
+    - assets/images/front.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

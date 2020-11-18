@@ -75,9 +75,7 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      body: SafeArea(
-        child: buildForm(),
-      ),
+      body: buildForm(),
     );
   }
 

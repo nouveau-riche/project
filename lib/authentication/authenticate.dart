@@ -12,7 +12,7 @@ Future<void> signIn(BuildContext context, String email, String password) async {
         email: email, password: password);
     User user = _result.user;
     if (user != null) {
-      Navigator.of(context).pushReplacementNamed('/choose_service-screen');
+      Navigator.of(context).pushReplacementNamed('/home-screen');
     }
   } catch (error) {
     print(error.toString());
@@ -27,9 +27,10 @@ Future<void> signUp(
         email: email, password: password);
     User user = _result.user;
     if (user != null) {
+      user.updateProfile(displayName: email);
       saveUserInfo(uid: user.uid, email: email);
       Navigator.of(context).pushNamedAndRemoveUntil(
-          '/choose_service-screen', (route) => false);
+          '/home-screen', (route) => false);
     }
   } catch (error) {
     print(error.toString());

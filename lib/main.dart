@@ -8,7 +8,7 @@ import './screens/authentication_screen/email_screen.dart';
 import './screens/authentication_screen/reset-password-screen.dart';
 import './screens/select_plan_screen.dart';
 import './screens/my_profile.dart';
-import './screens/tabs_screen.dart';
+import './screens/home_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,13 +19,14 @@ void main() async {
 class MyApp extends StatelessWidget{
   Widget build(BuildContext context){
     return MaterialApp(
-      home: FirebaseAuth.instance.currentUser != null ? TabsScreen() : Login(),
+      home: FirebaseAuth.instance.currentUser != null ? HomeScreen() : Login(),
       debugShowCheckedModeBanner: false,
       routes: {
         '/login-screen': (ctx) => Login(),
         '/email-screen': (ctx) => EmailScreen(),
         '/password-screen': (ctx) => PasswordScreen(),
         '/reset-password-screen': (ctx) => ResetPasswordScreen(),
+        '/home-screen': (ctx) => HomeScreen(),
         '/my-profile-screen': (ctx) => MyProfile(),
         '/select-plan-screen': (ctx) => SelectPlanScreen(),
       },

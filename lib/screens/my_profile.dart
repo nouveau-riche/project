@@ -7,6 +7,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../authentication/authenticate.dart';
 import '../database/database.dart';
+import './my_bookings.dart';
 
 class MyProfile extends StatefulWidget {
   @override
@@ -14,7 +15,6 @@ class MyProfile extends StatefulWidget {
 }
 
 class _MyProfileState extends State<MyProfile> {
-
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   TextEditingController _nameController = TextEditingController();
 
@@ -116,7 +116,6 @@ class _MyProfileState extends State<MyProfile> {
     getUserStoredDetails();
   }
 
-
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
@@ -162,10 +161,42 @@ class _MyProfileState extends State<MyProfile> {
                   )
                 : buildChangePhoto(),
             buildNameField(),
-            buildLogOut(mq.width*0.5)
+            Text('History',style: TextStyle(fontSize: 19,fontWeight: FontWeight.w500),),
+            buildHistoryStream(),
+            buildLogOut(mq.width * 0.5)
           ],
         ),
       ),
+    );
+  }
+
+  Widget buildHistoryStream() {
+    User user = FirebaseAuth.instance.currentUser;
+    return StreamBuilder(
+      stream: FirebaseFirestore.instance
+          .collection('transcations')
+          .doc(user.uid)
+          .collection('allTranscation')
+          .orderBy('timestamp', descending: true)
+          .limit(2)
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          var _data = snapshot.data;
+          List package = [];
+
+          _data.docs.map((doc) {
+            package.add(buildSingleTransaction(
+                doc['transactionId'], doc['amount'], doc['timestamp']));
+          }).toList();
+          return ListView.builder(
+              shrinkWrap: true,
+              itemCount: package.length,
+              itemBuilder: (ctx, index) => package[index]);
+        } else {
+          return Text('no history');
+        }
+      },
     );
   }
 
@@ -260,9 +291,7 @@ class _MyProfileState extends State<MyProfile> {
     return SizedBox(
       width: width,
       child: RaisedButton(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10)
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Text('Log Out'),
         onPressed: () {
           signOut().whenComplete(() => Navigator.of(context)

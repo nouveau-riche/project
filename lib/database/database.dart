@@ -21,3 +21,17 @@ Future<String> uploadImageToFirebaseStorage(String uid, File img) async {
   String downloadUrl = await storageTaskSnapshot.ref.getDownloadURL();
   return downloadUrl;
 }
+
+void uploadTransactionOnFirebase(
+    String uid, String transactionId,int amount) {
+  final ref = _fireStoreInst
+      .collection('transcations')
+      .doc(uid)
+      .collection('allTranscation')
+      .doc();
+  ref.set({
+    'transactionId': transactionId,
+    'timestamp': DateTime.now(),
+    'amount': amount
+  });
+}

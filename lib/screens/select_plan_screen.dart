@@ -1,6 +1,79 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+//import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
-class SelectPlanScreen extends StatelessWidget {
+import '../database/database.dart';
+
+class SelectPlanScreen extends StatefulWidget {
+  @override
+  _SelectPlanScreenState createState() => _SelectPlanScreenState();
+}
+
+class _SelectPlanScreenState extends State<SelectPlanScreen> {
+  User user = FirebaseAuth.instance.currentUser;
+//
+//  Razorpay _razorpay;
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//
+//    _razorpay = new Razorpay();
+//
+//    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
+//    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerErrorFailure);
+//    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+//  }
+//
+//  @override
+//  void dispose() {
+//    super.dispose();
+//    _razorpay.clear();
+//  }
+//
+//  var options = {
+//    'key': 'rzp_test_UGeWcmJMvhckq1',
+//    'amount': 0,
+//    'name': 'OTG-Carwash',
+//    'description': 'description',
+//    'prefill': {'contact': '', 'email': 'user.email'},
+//    'external': {
+//      'wallets': ['Paytm']
+//    },
+//  };
+//
+//  void openCheckout(int amount, String description) {
+//    options['amount'] = amount;
+//    options['description'] = description;
+//    options['prefill'] = {'contact': '','email': user.email};
+//
+//    try {
+//      _razorpay.open(options);
+//    } catch (error) {
+//      print(error.toString());
+//    }
+//  }
+//
+//   handlerPaymentSuccess(PaymentSuccessResponse response) {
+//    print(
+//        'dnvjdfldkjf djhf jdhfoifere rbejreroejrherheifjefhwkjfoifjheiofjenfejfhewiofjefefjehf shnvxjbvjkxhviodjfkjbvfjkhowieproqwejhifbjkd');
+//    print(options['amount']);
+//    uploadTransactionOnFirebase(user.uid, response.paymentId,options['amount']);
+//    //Fluttertoast.showToast(msg: 'Payment successful');
+//  }
+//
+//  void handlerErrorFailure() {
+//    print(
+//        'dnvjdfldkjf djhf jdhfoifere rbejreroejrherheifjefhwkjfoifjheiofjenfejfhewiofjefefjehf shnvxjbvjkxhviodjfkjbvfjkhowieproqwejhifbjkd');
+//    print('Payment failure');
+//    //Fluttertoast.showToast(msg: 'Payment Failure');
+//  }
+//
+//  void handlerExternalWallet() {
+//    print('external wallet');
+//  }
+
   @override
   Widget build(BuildContext context) {
     final mq = MediaQuery.of(context).size;
@@ -30,7 +103,9 @@ class SelectPlanScreen extends StatelessWidget {
   Widget buildPackage(
       double width, double height, String plan, int cost, String image) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        //openCheckout(cost, plan);
+      },
       child: Container(
         height: height,
         width: width,

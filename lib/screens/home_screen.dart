@@ -1,17 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import './book_car_wash.dart';
 import './my_bookings.dart';
 import './my_profile.dart';
 
-class TabsScreen extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   @override
-  _TabsScreenState createState() => _TabsScreenState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _HomeScreenState extends State<HomeScreen> {
   PageController _controller;
 
   int pageIndex = 0;
@@ -72,35 +73,33 @@ class _TabsScreenState extends State<TabsScreen> {
         type: BottomNavigationBarType.fixed,
         items: [
           const BottomNavigationBarItem(
+              icon: const Icon(Icons.home,size: 25,),
+              title: const Padding(
+                padding: EdgeInsets.all(0),
+              )
+              ),
+          const BottomNavigationBarItem(
               icon: const Icon(
-                Icons.home,
-                size: 30,
+                Icons.local_car_wash,
+                size: 25,
               ),
-              title: Padding(
+              title: const Padding(
                 padding: EdgeInsets.all(0),
               )),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.done,
-                size: 30,
-              ),
-              title: Padding(
-                padding: EdgeInsets.all(0),
-              )),
-          BottomNavigationBarItem(
-              icon: Icon(
+          const BottomNavigationBarItem(
+              icon: const Icon(
                 Icons.history,
-                size: 30,
+                size: 25,
               ),
-              title: Padding(
+              title: const Padding(
                 padding: EdgeInsets.all(0),
               )),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.account_circle,
-                size: 30,
+          const BottomNavigationBarItem(
+              icon: const Icon(
+                Icons.person,
+                size: 25,
               ),
-              title: Padding(
+              title: const Padding(
                 padding: EdgeInsets.all(0),
               ))
         ],
@@ -123,9 +122,9 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(92, 202, 250, 1),
-        title: Text(
+        title: const Text(
           'OTG-Car Wash',
-          style: TextStyle(fontFamily: 'Poppins'),
+          style: TextStyle(fontFamily: 'Poppins',fontWeight: FontWeight.bold),
         ),
         actions: [
           GestureDetector(
@@ -133,13 +132,13 @@ class _TabsScreenState extends State<TabsScreen> {
               Navigator.of(context).pushNamed('/my-profile-screen');
             },
             child: Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: CircleAvatar(
                 backgroundColor: Colors.grey,
-//                backgroundImage: user.photoURL == null
-//                    ? NetworkImage(
-//                        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIhDQEvLnsTd6ohE3LObS6IvIg9ENkuk8h1A&usqp=CAU')
-//                    : NetworkImage(''),
+                backgroundImage: user.photoURL == null
+                    ? NetworkImage(
+                        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIhDQEvLnsTd6ohE3LObS6IvIg9ENkuk8h1A&usqp=CAU')
+                    : NetworkImage(user.photoURL),
               ),
             ),
           ),
@@ -149,10 +148,11 @@ class _TabsScreenState extends State<TabsScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: mq.height * 0.28,
+            height: mq.height * 0.34,
             width: mq.width,
             child: CarouselSlider.builder(
               options: CarouselOptions(
+                aspectRatio: 3 / 2,
                 initialPage: 0,
                 enableInfiniteScroll: true,
                 reverse: false,
@@ -169,28 +169,29 @@ class _TabsScreenState extends State<TabsScreen> {
             onTap: () {
               onTapChangePage(1);
             },
-            child: Container(
-              height: mq.height * 0.15,
-              width: mq.width * 0.45,
-              margin: EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(
-                  color: Color.fromRGBO(92, 202, 250, 1),
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: LinearGradient(
-                    colors: [Colors.blue,Color.fromRGBO(92, 202, 250, 1)],
-                    begin: Alignment.bottomLeft,
-                    end: Alignment.bottomRight
+            child: Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: Container(
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(14)),
+                    height: mq.height * 0.15,
+                    width: mq.width * 0.45,
+                    child: Image.asset('assets/images/front.jpg',fit: BoxFit.cover,),
                   ),
-
-              ),
-              child: Center(
-                  child: Text(
-                'Book Car wash',
-                style: TextStyle(
-                    fontSize: 17,
-                    fontFamily: 'Nunito',
-                    fontWeight: FontWeight.bold),
-              )),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 20,top: 5),
+                  width: mq.width * 0.45,
+                  child: const Text(
+                    'Book Car Wash',
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'poppins',
+                        fontWeight: FontWeight.bold),
+                  ),
+                )
+              ],
             ),
           ),
         ],
@@ -203,8 +204,9 @@ Widget buildEachSubscription(
     String type, String price, int index, BuildContext context) {
   final mq = MediaQuery.of(context).size;
   return Container(
-    height: mq.height * 0.32,
+    margin: EdgeInsets.all(5),
     child: Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           padding: EdgeInsets.only(bottom: 5),
@@ -231,25 +233,13 @@ Widget buildEachSubscription(
                               fontWeight: FontWeight.bold))
                     ],
                   )),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'INR',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
+              Text(
+                'INR',
+                style: TextStyle(fontSize: 20),
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    '$price /-',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
+              Text(
+                '$price /-',
+                style: TextStyle(fontSize: 20),
               ),
               Text(
                 'Exterior - Dry Wash',
@@ -286,7 +276,7 @@ Widget buildEachSubscription(
           children: [
             Container(
               height: 5,
-              width:  index == 2 ? 6 : 5,
+              width: index == 2 ? 6 : 5,
               decoration: BoxDecoration(
                   color: index == 1 ? Colors.blue : Colors.grey,
                   borderRadius: BorderRadius.circular(2)),
@@ -296,7 +286,7 @@ Widget buildEachSubscription(
             ),
             Container(
               height: 5,
-              width:  index == 2 ? 6 :  5,
+              width: index == 2 ? 6 : 5,
               decoration: BoxDecoration(
                   color: index == 2 ? Colors.blue : Colors.grey,
                   borderRadius: BorderRadius.circular(2)),
@@ -306,7 +296,7 @@ Widget buildEachSubscription(
             ),
             Container(
               height: 5,
-              width:  index == 2 ? 6 : 5,
+              width: index == 2 ? 6 : 5,
               decoration: BoxDecoration(
                   color: index == 3 ? Colors.blue : Colors.grey,
                   borderRadius: BorderRadius.circular(2)),
@@ -316,7 +306,7 @@ Widget buildEachSubscription(
             ),
             Container(
               height: 5,
-              width:  index == 2 ? 6 : 5,
+              width: index == 2 ? 6 : 5,
               decoration: BoxDecoration(
                   color: index == 4 ? Colors.blue : Colors.grey,
                   borderRadius: BorderRadius.circular(2)),
