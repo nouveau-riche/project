@@ -26,16 +26,18 @@ dependencies:
   cloud_firestore: ^0.14.2
   firebase_auth:
   firebase_core: ^0.5.1
-  firebase_storage: ^4.0.1
   firebase_analytics: ^6.1.0
   flutter_spinkit: ^4.1.2
   http: ^0.12.2
-  image_picker: ^0.6.7+12
-  carousel_slider: ^2.3.1
-  #razorpay_flutter: ^1.2.2
+  razorpay_flutter: ^1.2.2
   fluttertoast: ^7.1.1
-  timeago: ^2.0.26
+  intl: ^0.16.1
   font_awesome_flutter: ^8.10.0
+  pie_chart: ^4.0.1
+  fancy_bottom_navigation: ^0.3.2
+  shimmer: ^1.1.2
+  google_sign_in: ^4.5.6
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -60,13 +62,14 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/logo.jpeg
-    - assets/images/back.jpeg
-    - assets/images/image1.jpeg
-    - assets/images/image2.jpg
-    - assets/images/image3.jpg
-    - assets/images/image4.jpg
+    - assets/images/payment_success.png
     - assets/images/sticker.jpg
-    - assets/images/front.jpg
+    - assets/images/plan_sticker.jpg
+    - assets/images/images.png
+    - assets/images/images.jpeg
+    - assets/images/payment_failed.jpg
+    - assets/images/windshield.png
+    - assets/images/tyre.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

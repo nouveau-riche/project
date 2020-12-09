@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import './select_plan_screen.dart';
 import '../constant/const.dart';
 
 class BookCarWash extends StatefulWidget {
@@ -52,6 +53,7 @@ class _BookCarWashState extends State<BookCarWash> {
   }
 
   fetchData(String name) {
+    _valueCarModel = 0;
     setState(() {
       isLoading = true;
     });
@@ -185,7 +187,6 @@ class _BookCarWashState extends State<BookCarWash> {
                         : buildCarModelSelectingDropDown(
                             mq.height * 0.06, mq.width * 0.8),
                   buildCarNumberField(),
-                  const Spacer(),
                   buildContinueButton(mq.width * 0.8),
                 ],
               ),
@@ -212,7 +213,7 @@ class _BookCarWashState extends State<BookCarWash> {
             setState(() {
               _valueCarName = value;
               modelHelper(carNames[_valueCarName - 1]);
-              //fetchData(carNames[_valueCarName - 1]);
+              fetchData(carNames[_valueCarName - 1]);
             });
           },
         ),
@@ -244,8 +245,8 @@ class _BookCarWashState extends State<BookCarWash> {
 
   Widget buildCarNumberField() {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 45, vertical: 10),
-      margin: EdgeInsets.symmetric(horizontal: 1, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 1, vertical: 10),
       child: TextField(
         textCapitalization: TextCapitalization.characters,
         decoration: const InputDecoration(
@@ -263,38 +264,65 @@ class _BookCarWashState extends State<BookCarWash> {
     return SizedBox(
       width: width,
       child: OutlineButton(
-        borderSide: const BorderSide(color: Colors.blue, width: 1.5),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: const Text(
-          'Continue',
-          style: const TextStyle(
-              color: const Color.fromRGBO(92, 202, 250, 1),
-              fontSize: 17,
-              fontWeight: FontWeight.w600),
-        ),
-        onPressed: _valueCarName != 0 &&
-                _valueCarModel != 0 &&
-                _controller.text.length == 10
-            ? () {
-                Navigator.of(context).pushNamed('/select-plan-screen');
-              }
-            : () {
-                if (_valueCarName == 0 || _valueCarModel == 0)
-                  buildAlertBox('Enter all Fields');
-                else
-                  buildAlertBox('Enter Correct Car Number');
-              },
-      ),
+          borderSide: const BorderSide(
+              color: const Color.fromRGBO(92, 202, 250, 1), width: 1.5),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: const Text(
+            'Continue',
+            style: const TextStyle(
+                color: const Color.fromRGBO(92, 202, 250, 1),
+                fontSize: 17,
+                fontWeight: FontWeight.w600),
+          ),
+//        onPressed: _valueCarName != 0 &&
+//                _valueCarModel != 0 &&
+//                _controller.text.length > 0
+//            ? () {
+//                Navigator.of(context).push(MaterialPageRoute(
+//                    builder: (ctx) => SelectPlanScreen(
+//                          carName: carNames[_valueCarName - 1],
+//                          carModel: carModel[carNames[_valueCarName - 1]]
+//                              [_valueCarModel-1],
+//                          carNumber: _controller.text,
+//                        )));
+//              }
+//            : () {
+//                if (_valueCarName == 0 || _valueCarModel == 0)
+//                  buildAlertBox('Enter all Fields');
+//                else
+//                  buildAlertBox('Enter Correct Car Number');
+//              },
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => SelectPlanScreen(
+                      carName: carNames[_valueCarName - 1],
+                      carModel: carModel[carNames[_valueCarName - 1]]
+                          [_valueCarModel - 1],
+                      carNumber: _controller.text,
+                    )));
+          }),
     );
   }
 
   buildAlertBox(String text) {
+    print(_controller.text.length);
+    print(_valueCarModel);
+    print(_valueCarName);
     return showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
               title: Text(text),
+              actions: [
+                FlatButton(
+                  child: const Text('Close'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ));
   }
 }

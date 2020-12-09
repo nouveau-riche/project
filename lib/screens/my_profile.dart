@@ -1,12 +1,8 @@
-import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../authentication/authenticate.dart';
-import '../database/database.dart';
 import './my_bookings.dart';
 
 class MyProfile extends StatefulWidget {
@@ -19,68 +15,14 @@ class _MyProfileState extends State<MyProfile> {
   TextEditingController _nameController = TextEditingController();
 
   var isLoading = false;
-  var isProfileLoading = false;
-  String userPhoto;
-
-  File image;
-  final picker = ImagePicker();
-
   User user = FirebaseAuth.instance.currentUser;
 
-  Future captureImageFromCamera(String updateType) async {
-    Navigator.of(context).pop();
-    final imageFile = await picker.getImage(source: ImageSource.camera);
-    setState(() {
-      isProfileLoading = true;
-    });
-    if (imageFile != null) {
-      setState(() {
-        image = File(imageFile.path);
-      });
-      String url = await uploadImageToFirebaseStorage(user.uid, image);
-      final ref = FirebaseFirestore.instance.collection('users').doc(user.uid);
-      user.updateProfile(photoURL: url);
-      await ref.update({
-        updateType: url,
-      });
-      getUserStoredDetails();
-      showSnackBar();
-    }
-    setState(() {
-      isProfileLoading = false;
-    });
-  }
-
-  Future pickImageFromGallery(String updateType) async {
-    Navigator.of(context).pop();
-    final imageFile = await picker.getImage(source: ImageSource.gallery);
-    setState(() {
-      isProfileLoading = true;
-    });
-    if (imageFile != null) {
-      setState(() {
-        image = File(imageFile.path);
-      });
-      String url = await uploadImageToFirebaseStorage(user.uid, image);
-      final ref = FirebaseFirestore.instance.collection('users').doc(user.uid);
-      user.updateProfile(photoURL: url);
-      await ref.update({
-        updateType: url,
-      });
-      getUserStoredDetails();
-      showSnackBar();
-    }
-    setState(() {
-      isProfileLoading = false;
-    });
-  }
-
-  showSnackBar() {
+  showSnackBar(String text) {
     _scaffoldKey.currentState.hideCurrentSnackBar();
     _scaffoldKey.currentState.showSnackBar(SnackBar(
       duration: const Duration(seconds: 2),
-      content: const Text(
-        'Photo Changed Successfully!',
+      content: Text(
+        text,
         style:
             const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
       ),
@@ -96,9 +38,6 @@ class _MyProfileState extends State<MyProfile> {
     final ref =
         FirebaseFirestore.instance.collection('users').doc(user.uid).get();
     await ref.then((value) {
-      setState(() {
-        userPhoto = value.data()['photoUrl'];
-      });
       _nameController.text = value.data()['name'];
     });
   }
@@ -108,6 +47,7 @@ class _MyProfileState extends State<MyProfile> {
     await ref.update({
       'name': _nameController.text.trim(),
     });
+    showSnackBar('Profile Changed Successfully!');
   }
 
   @override
@@ -122,13 +62,17 @@ class _MyProfileState extends State<MyProfile> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(1, 204, 254, 1),
-        title: const Text('Edit Profile'),
+        backgroundColor: const Color.fromRGBO(1, 204, 254, 1),
+        title: const Text(
+          'Edit Profile',
+          style: const TextStyle(
+              fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+        ),
         actions: <Widget>[
           IconButton(
             icon: isLoading
                 ? SpinKitThreeBounce(
-                    color: Color.fromRGBO(1, 204, 254, 1), size: 40)
+                    color: const Color.fromRGBO(1, 204, 254, 1), size: 40)
                 : const Icon(Icons.done, size: 36),
             onPressed: isLoading
                 ? () {}
@@ -140,30 +84,46 @@ class _MyProfileState extends State<MyProfile> {
                     setState(() {
                       isLoading = false;
                     });
-                    Navigator.of(context).pop();
                   },
           ),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             SizedBox(height: mq.height * 0.028),
             buildImageContainer(),
-            isProfileLoading
-                ? Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SizedBox(height: mq.height * 0.02),
-                      const CircularProgressIndicator(
-                          backgroundColor: Color.fromRGBO(1, 204, 254, 1)),
-                    ],
-                  )
-                : buildChangePhoto(),
+//            isProfileLoading
+//                ? Column(
+//              mainAxisSize: MainAxisSize.min,
+//              children: <Widget>[
+//                SizedBox(height: mq.height * 0.02),
+//                const CircularProgressIndicator(
+//                    backgroundColor: const Color.fromRGBO(1, 204, 254, 1)),
+//              ],
+//            )
+//                : buildChangePhoto(),
             buildNameField(),
-            Text('History',style: TextStyle(fontSize: 19,fontWeight: FontWeight.w500),),
+            Row(
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                  child: Text(
+                    'History',
+                    style: TextStyle(
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins'),
+                  ),
+                ),
+              ],
+            ),
             buildHistoryStream(),
-            buildLogOut(mq.width * 0.5)
+//            SizedBox(
+//              height: 20,
+//            ),
+            //buildLogOut(mq.width * 0.95),
           ],
         ),
       ),
@@ -171,6 +131,7 @@ class _MyProfileState extends State<MyProfile> {
   }
 
   Widget buildHistoryStream() {
+    final mq = MediaQuery.of(context).size;
     User user = FirebaseAuth.instance.currentUser;
     return StreamBuilder(
       stream: FirebaseFirestore.instance
@@ -183,16 +144,24 @@ class _MyProfileState extends State<MyProfile> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var _data = snapshot.data;
-          List package = [];
+          List<Widget> package = [];
 
           _data.docs.map((doc) {
-            package.add(buildSingleTransaction(
-                doc['transactionId'], doc['amount'], doc['timestamp']));
+            package.add(
+              buildHistory(
+                  mq.height * 0.34,
+                  doc['transactionId'],
+                  (doc['amount'] / 100).toInt(),
+                  doc['carName'],
+                  doc['carModel'],
+                  doc['carNumber'],
+                  doc['timestamp'],
+                  doc['success']),
+            );
           }).toList();
-          return ListView.builder(
-              shrinkWrap: true,
-              itemCount: package.length,
-              itemBuilder: (ctx, index) => package[index]);
+          return Column(
+            children: package,
+          );
         } else {
           return Text('no history');
         }
@@ -205,6 +174,7 @@ class _MyProfileState extends State<MyProfile> {
       margin: const EdgeInsets.all(10),
       child: TextField(
         cursorColor: Colors.grey,
+        textCapitalization: TextCapitalization.words,
         decoration: const InputDecoration(
             labelText: 'Name',
             labelStyle: const TextStyle(fontWeight: FontWeight.w500),
@@ -218,86 +188,95 @@ class _MyProfileState extends State<MyProfile> {
     );
   }
 
-  Widget buildChangePhoto() {
-    return FlatButton(
-        child: const Text('Change Photo',
-            style: const TextStyle(
-                color: Color.fromRGBO(1, 204, 254, 1),
-                fontWeight: FontWeight.bold,
-                fontSize: 16)),
-        onPressed: () {
-          openDialogBox('photoUrl');
-        });
-  }
+//  Widget buildChangePhoto() {
+//    return FlatButton(
+//        child: const Text('Change Photo',
+//            style: const TextStyle(
+//                color: const Color.fromRGBO(1, 204, 254, 1),
+//                fontWeight: FontWeight.bold,
+//                fontSize: 16)),
+//        onPressed: () {
+//          openDialogBox('photoUrl');
+//        });
+//  }
 
-  openDialogBox(String updateType) {
-    showDialog(
-        context: context,
-        builder: (ctx) => SimpleDialog(
-              children: <Widget>[
-                SimpleDialogOption(
-                    child: const Text(
-                      "Capture Image with Camera",
-                    ),
-                    onPressed: () {
-                      captureImageFromCamera(updateType);
-                    }),
-                SimpleDialogOption(
-                    child: const Text(
-                      "Pick Image from Gallery",
-                    ),
-                    onPressed: () {
-                      pickImageFromGallery(updateType);
-                    }),
-                SimpleDialogOption(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: <Widget>[
-                        const Icon(
-                          Icons.cancel,
-                          color: Colors.grey,
-                        ),
-                        const Text(
-                          "Cancel",
-                        ),
-                      ],
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    }),
-              ],
-            ));
-  }
+//  openDialogBox(String updateType) {
+//    showDialog(
+//        context: context,
+//        builder: (ctx) =>
+//            SimpleDialog(
+//              shape: RoundedRectangleBorder(
+//                  borderRadius: BorderRadius.circular(10)),
+//              children: <Widget>[
+//                SimpleDialogOption(
+//                    child: const Text(
+//                      "Capture Image with Camera",
+//                    ),
+//                    onPressed: () {
+//                      captureImageFromCamera(updateType);
+//                    }),
+//                SimpleDialogOption(
+//                    child: const Text(
+//                      "Pick Image from Gallery",
+//                    ),
+//                    onPressed: () {
+//                      pickImageFromGallery(updateType);
+//                    }),
+//                SimpleDialogOption(
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.end,
+//                      children: <Widget>[
+//                        const Icon(
+//                          Icons.cancel,
+//                          color: Colors.grey,
+//                        ),
+//                        const Text(
+//                          "Cancel",
+//                        ),
+//                      ],
+//                    ),
+//                    onPressed: () {
+//                      Navigator.of(context).pop();
+//                    }),
+//              ],
+//            ));
+//  }
 
   buildImageContainer() {
+    User user = FirebaseAuth.instance.currentUser;
     return Center(
       child: GestureDetector(
         onTap: () {
-          openDialogBox('photoUrl');
+          //openDialogBox('photoUrl');
         },
         child: CircleAvatar(
           backgroundColor: Colors.white70,
           radius: 45,
-          backgroundImage: userPhoto != null
-              ? NetworkImage(userPhoto)
-              : NetworkImage(
-                  'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIhDQEvLnsTd6ohE3LObS6IvIg9ENkuk8h1A&usqp=CAU'),
+          backgroundImage: NetworkImage(user.photoURL),
         ),
       ),
     );
   }
 
-  Widget buildLogOut(double width) {
-    return SizedBox(
-      width: width,
-      child: RaisedButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Text('Log Out'),
-        onPressed: () {
-          signOut().whenComplete(() => Navigator.of(context)
-              .pushNamedAndRemoveUntil('/login-screen', (route) => false));
-        },
-      ),
-    );
-  }
+//  Widget buildLogOut(double width) {
+//    return SizedBox(
+//      width: width,
+//      child: OutlineButton(
+//          borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+//          shape:
+//              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+//          child: const Text(
+//            'Log Out',
+//            style: const TextStyle(
+//                color: Colors.redAccent,
+//                fontSize: 17,
+//                fontWeight: FontWeight.w600),
+//          ),
+//          onPressed: () {
+//            signOutGoogle();
+//            Navigator.of(context)
+//                .pushNamedAndRemoveUntil('/login-screen', (route) => false);
+//          }),
+//    );
+//  }
 }
