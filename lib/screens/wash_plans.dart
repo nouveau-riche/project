@@ -5,13 +5,16 @@ import '../widgets/drawer.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+
+// remove comments
+
 class PlanScreen extends StatefulWidget {
   @override
   _PlanScreenState createState() => _PlanScreenState();
 }
 
 class _PlanScreenState extends State<PlanScreen> {
-  User user = FirebaseAuth.instance.currentUser;
+  //User user = FirebaseAuth.instance.currentUser;
 
   ScrollController _hideButtonController;
   var _isVisible;
@@ -73,10 +76,10 @@ class _PlanScreenState extends State<PlanScreen> {
                       padding: const EdgeInsets.all(8),
                       child: CircleAvatar(
                         backgroundColor: Colors.grey,
-                        backgroundImage: user.photoURL == null
-                            ? NetworkImage(
+                        backgroundImage:
+                             NetworkImage(
                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIhDQEvLnsTd6ohE3LObS6IvIg9ENkuk8h1A&usqp=CAU')
-                            : NetworkImage(user.photoURL),
+                            // NetworkImage(user.photoURL),
                       ),
                     ),
                   ],

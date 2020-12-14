@@ -5,6 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
+// remove comments
+
 class MyBookings extends StatefulWidget {
   @override
   _MyBookingsState createState() => _MyBookingsState();
@@ -58,7 +60,7 @@ class _MyBookingsState extends State<MyBookings>
     });
   }
 
-  final User user = FirebaseAuth.instance.currentUser;
+  //final User user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +72,8 @@ class _MyBookingsState extends State<MyBookings>
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildAppbar(user.photoURL),
+          //buildAppbar(user.photoURL),
+          buildAppbar(null),
           _isVisible
               ? Container(
                   child: Text(
@@ -93,7 +96,8 @@ class _MyBookingsState extends State<MyBookings>
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('transcations')
-                      .doc(user.uid)
+                      //.doc(user.uid)
+                      .doc('MITstPx9b5YMszsMveaofx5CVoL2')
                       .collection('allTranscation')
                       .orderBy('timestamp', descending: true)
                       .snapshots(),

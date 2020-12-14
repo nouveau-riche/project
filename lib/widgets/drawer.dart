@@ -4,9 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../authentication/google_signin.dart';
 
+
+// remove comment
+
 Widget buildDrawerContent(BuildContext context) {
   final mq = MediaQuery.of(context).size;
-  User user = FirebaseAuth.instance.currentUser;
+  //User user = FirebaseAuth.instance.currentUser;
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -30,30 +33,31 @@ Widget buildDrawerContent(BuildContext context) {
                   SizedBox(
                     height: mq.height * 0.05,
                   ),
-                  CircleAvatar(
-                    radius: 45,
-                    backgroundColor: Colors.grey[200],
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundImage: NetworkImage(user.photoURL),
-                    ),
-                  ),
+
+//                  CircleAvatar(
+//                    radius: 45,
+//                    backgroundColor: Colors.grey[200],
+//                    child: CircleAvatar(
+//                      radius: 40,
+//                      backgroundImage: NetworkImage(user.photoURL),
+//                    ),
+//                  ),
                   const SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    user.displayName,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
+//                  Text(
+//                    user.displayName,
+//                    style: const TextStyle(
+//                        fontSize: 15, fontWeight: FontWeight.w500),
+//                  ),
                   const SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    user.email,
-                    style: const TextStyle(
-                        fontSize: 15, fontWeight: FontWeight.w500),
-                  ),
+//                  Text(
+//                    user.email,
+//                    style: const TextStyle(
+//                        fontSize: 15, fontWeight: FontWeight.w500),
+//                  ),
                   const SizedBox(
                     height: 10,
                   ),

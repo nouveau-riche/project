@@ -65,7 +65,8 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
   handlerPaymentSuccess(PaymentSuccessResponse response) {
     print(options['amount']);
     uploadTransactionOnFirebase(
-        uid: user.uid,
+        //uid: user.uid,
+      uid: 'MITstPx9b5YMszsMveaofx5CVoL2',
         transactionId: response.paymentId,
         amount: options['amount'],
         carName: widget.carName,
@@ -77,7 +78,8 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
 
   void handlerErrorFailure(PaymentFailureResponse failureResponse) {
     uploadTransactionOnFirebase(
-        uid: user.uid,
+        //uid: user.uid,
+        uid: 'MITstPx9b5YMszsMveaofx5CVoL2',
         transactionId: 'failed',
         amount: options['amount'],
         carName: widget.carName,
@@ -118,10 +120,10 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
                       padding: const EdgeInsets.all(8),
                       child: CircleAvatar(
                         backgroundColor: Colors.grey,
-                        backgroundImage: user.photoURL == null
-                            ? NetworkImage(
+                        backgroundImage:
+                             NetworkImage(
                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIhDQEvLnsTd6ohE3LObS6IvIg9ENkuk8h1A&usqp=CAU')
-                            : NetworkImage(user.photoURL),
+                            // NetworkImage(user.photoURL),
                       ),
                     ),
                   ],
