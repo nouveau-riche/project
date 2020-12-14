@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:nice_button/nice_button.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import './select_plan_screen.dart';
 import '../constant/const.dart';
@@ -31,27 +31,6 @@ class _BookCarWashState extends State<BookCarWash> {
     ),
   ];
 
-  List model = [];
-
-  modelHelper(String name) async {
-    final response = await http.get(
-        'https://parseapi.back4app.com/classes/Carmodels_Car_Model_List_$name?limit=10000',
-        headers: {
-          "X-Parse-Application-Id": "2exBnALHw6mPFFY1NgNN3zj9zZGXWDyAU9bY97dn",
-          // This is your app's application id
-          "X-Parse-REST-API-Key": "LhU0KFvHfptrdxI15wzRGQJSUHztii0wbEH9wBcx"
-          // This is your app's REST API key
-        });
-    if (response.statusCode == 200) {
-      Map<String, dynamic> map = json.decode(response.body);
-      List list = map['results'];
-      list.forEach((element) {
-        if (!model.contains(element['Model'])) model.add(element['Model']);
-      });
-    }
-    print(model);
-  }
-
   fetchData(String name) {
     _valueCarModel = 0;
     setState(() {
@@ -64,7 +43,7 @@ class _BookCarWashState extends State<BookCarWash> {
           'Select Car Model',
           style: const TextStyle(
               fontFamily: 'Nunito',
-              fontSize: 16,
+              fontSize: 15,
               fontWeight: FontWeight.w600,
               color: Colors.black),
         ),
@@ -153,7 +132,11 @@ class _BookCarWashState extends State<BookCarWash> {
               left: 0,
               child: Container(
                   height: mq.height * 0.4,
-                  child: Image.asset('assets/images/sticker.jpg'))),
+                  width: mq.width,
+                  child: Image.asset(
+                    'assets/images/sticker.jpg',
+                    fit: BoxFit.cover,
+                  ))),
           Positioned(
             bottom: 0,
             left: 0,
@@ -187,7 +170,7 @@ class _BookCarWashState extends State<BookCarWash> {
                         : buildCarModelSelectingDropDown(
                             mq.height * 0.06, mq.width * 0.8),
                   buildCarNumberField(),
-                  buildContinueButton(mq.width * 0.8),
+                  buildContinueButton(),
                 ],
               ),
             ),
@@ -212,7 +195,6 @@ class _BookCarWashState extends State<BookCarWash> {
           onChanged: (value) {
             setState(() {
               _valueCarName = value;
-              modelHelper(carNames[_valueCarName - 1]);
               fetchData(carNames[_valueCarName - 1]);
             });
           },
@@ -251,58 +233,36 @@ class _BookCarWashState extends State<BookCarWash> {
         textCapitalization: TextCapitalization.characters,
         decoration: const InputDecoration(
           hintText: 'Car Plate Number',
-          focusedBorder: const UnderlineInputBorder(
-            borderSide: const BorderSide(color: Colors.blue, width: 1.5),
-          ),
+          border: InputBorder.none,
         ),
         controller: _controller,
       ),
     );
   }
 
-  Widget buildContinueButton(double width) {
-    return SizedBox(
-      width: width,
-      child: OutlineButton(
-          borderSide: const BorderSide(
-              color: const Color.fromRGBO(92, 202, 250, 1), width: 1.5),
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          child: const Text(
-            'Continue',
-            style: const TextStyle(
-                color: const Color.fromRGBO(92, 202, 250, 1),
-                fontSize: 17,
-                fontWeight: FontWeight.w600),
-          ),
-//        onPressed: _valueCarName != 0 &&
-//                _valueCarModel != 0 &&
-//                _controller.text.length > 0
-//            ? () {
-//                Navigator.of(context).push(MaterialPageRoute(
-//                    builder: (ctx) => SelectPlanScreen(
-//                          carName: carNames[_valueCarName - 1],
-//                          carModel: carModel[carNames[_valueCarName - 1]]
-//                              [_valueCarModel-1],
-//                          carNumber: _controller.text,
-//                        )));
-//              }
-//            : () {
-//                if (_valueCarName == 0 || _valueCarModel == 0)
-//                  buildAlertBox('Enter all Fields');
-//                else
-//                  buildAlertBox('Enter Correct Car Number');
-//              },
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (ctx) => SelectPlanScreen(
-                      carName: carNames[_valueCarName - 1],
-                      carModel: carModel[carNames[_valueCarName - 1]]
-                          [_valueCarModel - 1],
-                      carNumber: _controller.text,
-                    )));
-          }),
-    );
+  Widget buildContinueButton() {
+    var firstColor = Color(0xff5b86e5), secondColor = Color(0xff36d2dc);
+
+    return NiceButton(
+        background: Colors.white,
+        radius: 5,
+        padding: const EdgeInsets.all(7),
+        text: "Continue",
+        icon: FontAwesomeIcons.arrowAltCircleRight,
+        gradientColors: [secondColor, firstColor],
+        onPressed: _valueCarName != 0 && _valueCarModel != 0
+            ? () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (ctx) => SelectPlanScreen(
+                          carName: carNames[_valueCarName - 1],
+                          carModel: carModel[carNames[_valueCarName - 1]]
+                              [_valueCarModel - 1],
+                          carNumber: _controller.text,
+                        )));
+              }
+            : () {
+                buildAlertBox('Enter Correct Car Number');
+              });
   }
 
   buildAlertBox(String text) {

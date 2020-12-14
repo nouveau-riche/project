@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import './wash_plans.dart';
 import './book_car_wash.dart';
@@ -52,13 +53,12 @@ class _TabScreenState extends State<TabScreen> {
           onTabChangedListener: (position) {
             setState(() {
               onTapChangePage(position);
-              //pageIndex = position;
             });
           },
           tabs: [
-            TabData(iconData: Icons.home, title: 'Home'),
+            TabData(iconData: FontAwesomeIcons.home, title: 'Home'),
             TabData(iconData: Icons.local_car_wash, title: 'Wash'),
-            TabData(iconData: Icons.history, title: 'History'),
+            TabData(iconData: FontAwesomeIcons.calendarAlt, title: 'My Bookings'),
           ],
         ));
   }

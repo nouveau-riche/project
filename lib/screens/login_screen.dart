@@ -8,7 +8,6 @@ class Authentication extends StatefulWidget {
 }
 
 class _AuthenticationState extends State<Authentication> {
-
   bool isLoading = false;
 
   @override
@@ -16,73 +15,80 @@ class _AuthenticationState extends State<Authentication> {
     final mq = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color.fromRGBO(92, 202, 250, 1),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: mq.height*0.07,),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(60),
-            child: Container(
-              height: mq.height * 0.2,
-              width: mq.width*0.6,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(60)
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.white70, Color.fromRGBO(92, 202, 250, 1)],
+            end: Alignment.bottomCenter,
+            begin: Alignment.topCenter,
+          ),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: mq.height * 0.08,
+            ),
+            Container(
+              height: mq.height * 0.35,
+              width: mq.width * 0.8,
+              child: Image.asset(
+                "assets/images/logo.png",
               ),
-              child: Image.asset("assets/images/logo.jpeg",fit: BoxFit.cover,),
             ),
-          ),
-          Container(
-            height: mq.height * 0.13,
-            child: const Text(
-              'OTG Carwash',
-              style: const TextStyle(
-                  fontSize: 30,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700),
+            Container(
+              height: mq.height * 0.12,
+              child: Center(
+                child: const Text(
+                  'Welcome to OTG Carwash!',
+                  style: const TextStyle(
+                      fontSize: 22,
+                      fontFamily: 'Poppins',
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
-          ),
-          Container(
-            height: mq.height * 0.12,
-            child: Center(
+            isLoading == true
+                ? CircularProgressIndicator()
+                : Container(
+                    height: mq.height * 0.05,
+                    width: mq.width * 0.58,
+                    child: RaisedButton(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(2)),
+                      child: const Text(
+                        'GET STARTED',
+                        style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        signInWithGoogle(context);
+                        setState(() {
+                          isLoading = false;
+                        });
+                      },
+                      color: Colors.white,
+                    ),
+                  ),
+            const Spacer(),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 6),
               child: const Text(
-                'Welcome to OTG Carwash',
-                style: const TextStyle(
-                    fontSize: 22,
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                    fontWeight: FontWeight.w400),
+                'By signing in you agree to share contact information with us.',
+                style: const TextStyle(fontSize: 15),
               ),
             ),
-          ),
-          isLoading == true ? CircularProgressIndicator() : Container(
-            height: mq.height * 0.05,
-            width: mq.width*0.5,
-            child: RaisedButton(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: const Text(
-                'GET STARTED',
-                style: const TextStyle(
-                    color: const Color.fromRGBO(25, 128, 58, 1), fontSize: 17),
-              ),
-              onPressed: () {
-                setState(() {
-                  isLoading = true;
-                });
-                signInWithGoogle(context);
-                setState(() {
-                  isLoading = false;
-                });
-              },
-              color: Colors.white,
+            const SizedBox(
+              height: 10,
             ),
-          ),
-          const Spacer(),
-          const Text(
-            'By signing in you agree to share contact information with us.',
-            style: const TextStyle(fontSize: 15, color: Colors.white),
-          ),
-          const SizedBox(height: 10,),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -51,7 +51,7 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
   };
 
   void openCheckout(int amount, String description) {
-    options['amount'] = amount*100;
+    options['amount'] = amount * 100;
     options['description'] = description;
     options['prefill'] = {'contact': '', 'email': user.email};
 
@@ -70,18 +70,20 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
         amount: options['amount'],
         carName: widget.carName,
         carModel: widget.carModel,
-        carNumber: widget.carNumber,isSuccessful: true);
+        carNumber: widget.carNumber,
+        isSuccessful: true);
     //Fluttertoast.showToast(msg: 'Payment successful');
   }
 
   void handlerErrorFailure(PaymentFailureResponse failureResponse) {
-      uploadTransactionOnFirebase(
+    uploadTransactionOnFirebase(
         uid: user.uid,
         transactionId: 'failed',
         amount: options['amount'],
         carName: widget.carName,
         carModel: widget.carModel,
-        carNumber: widget.carNumber,isSuccessful: false);
+        carNumber: widget.carNumber,
+        isSuccessful: false);
     //Fluttertoast.showToast(msg: 'Payment Failure');
   }
 
@@ -97,35 +99,70 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
     final mq = MediaQuery.of(context).size;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromRGBO(92, 202, 250, 1),
-        title: const Text(
-          'Select Plan',
-          style: const TextStyle(
-              fontFamily: 'Poppins', fontWeight: FontWeight.bold),
-        ),
-      ),
-      body: ListView(
+      backgroundColor: Colors.white,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          buildPackage(mq.width * 0.95, mq.height * 0.2, 'Wash Instantly', 100,
-              'assets/images/image1.jpeg', '4.8'),
-          buildPackage(mq.width * 0.95, mq.height * 0.2, 'Monthly', 600,
-              'assets/images/image2.jpg', '4.5'),
-          buildPackage(mq.width * 0.95, mq.height * 0.2, 'Quaterly', 1600,
-              'assets/images/image3.jpg', '4.9'),
-          buildPackage(mq.width * 0.95, mq.height * 0.2, 'Half Yearly', 3400,
-              'assets/images/image4.jpg', '4.1'),
-          buildPackage(mq.width * 0.95, mq.height * 0.2, 'Yearly', 6800,
-              'assets/images/image1.jpeg', '5.0'),
+          Container(
+            child: Stack(
+              children: [
+                Image.asset(
+                  "assets/images/appbar.jpg",
+                  fit: BoxFit.cover,
+                ),
+                AppBar(
+                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.grey,
+                        backgroundImage: user.photoURL == null
+                            ? NetworkImage(
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIhDQEvLnsTd6ohE3LObS6IvIg9ENkuk8h1A&usqp=CAU')
+                            : NetworkImage(user.photoURL),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Text(
+              'Choose Plan',
+              style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 20),
+          ),
+          Expanded(
+            child: ListView(
+              children: [
+                buildPackage(mq.width * 0.95, 'Wash Instantly', 100,
+                    'assets/images/image1.jpeg', '4.8'),
+                buildPackage(mq.width * 0.95, 'Monthly', 600,
+                    'assets/images/image2.jpg', '4.5'),
+                buildPackage(mq.width * 0.95, 'Quaterly', 1600,
+                    'assets/images/image3.jpg', '4.9'),
+                buildPackage(mq.width * 0.95, 'Half Yearly', 3400,
+                    'assets/images/image4.jpg', '4.1'),
+                buildPackage(mq.width * 0.95, 'Yearly', 6800,
+                    'assets/images/image1.jpeg', '5.0'),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget buildPackage(double width, double height, String plan, int cost,
-      String image, String rating) {
+  Widget buildPackage(
+      double width, String plan, int cost, String image, String rating) {
     return Container(
-      height: height,
       width: width,
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
@@ -226,7 +263,7 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
                             ),
                             color: Colors.white,
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40)),
+                                borderRadius: BorderRadius.circular(5)),
                             onPressed: () {
                               openCheckout(cost, plan);
                             },
@@ -243,13 +280,14 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.only(bottomRight: Radius.circular(10)),
               child: Container(
                 height: mq.height * 0.12,
                 width: mq.width * 0.24,
                 decoration: BoxDecoration(
                   color: const Color.fromRGBO(216, 216, 216, 1),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius:
+                      BorderRadius.only(bottomRight: Radius.circular(10)),
                 ),
                 child: Image.asset(
                   'assets/images/plan_sticker.jpg',
