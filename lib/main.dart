@@ -12,11 +12,12 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget{
-  Widget build(BuildContext context){
+class MyApp extends StatelessWidget {
+  Widget build(BuildContext context) {
     return MaterialApp(
-      home: FirebaseAuth.instance.currentUser != null ? TabScreen() : Authentication(),
-
+      home: FirebaseAuth.instance.currentUser != null
+          ? TabScreen()
+          : Authentication(),
       debugShowCheckedModeBanner: false,
       routes: {
         '/login-screen': (ctx) => Authentication(),
@@ -26,5 +27,3 @@ class MyApp extends StatelessWidget{
     );
   }
 }
-
-

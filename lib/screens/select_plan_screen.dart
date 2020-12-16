@@ -65,8 +65,7 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
   handlerPaymentSuccess(PaymentSuccessResponse response) {
     print(options['amount']);
     uploadTransactionOnFirebase(
-        //uid: user.uid,
-      uid: 'MITstPx9b5YMszsMveaofx5CVoL2',
+        uid: user.uid,
         transactionId: response.paymentId,
         amount: options['amount'],
         carName: widget.carName,
@@ -78,8 +77,7 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
 
   void handlerErrorFailure(PaymentFailureResponse failureResponse) {
     uploadTransactionOnFirebase(
-        //uid: user.uid,
-        uid: 'MITstPx9b5YMszsMveaofx5CVoL2',
+        uid: user.uid,
         transactionId: 'failed',
         amount: options['amount'],
         carName: widget.carName,
@@ -95,9 +93,6 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.carNumber);
-    print(widget.carModel);
-    print(widget.carName);
     final mq = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -120,10 +115,7 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
                       padding: const EdgeInsets.all(8),
                       child: CircleAvatar(
                         backgroundColor: Colors.grey,
-                        backgroundImage:
-                             NetworkImage(
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIhDQEvLnsTd6ohE3LObS6IvIg9ENkuk8h1A&usqp=CAU')
-                            // NetworkImage(user.photoURL),
+                        backgroundImage: NetworkImage(user.photoURL),
                       ),
                     ),
                   ],
@@ -132,14 +124,14 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
             ),
           ),
           Container(
-            child: Text(
+            child: const Text(
               'Choose Plan',
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: 'Poppins',
                   fontSize: 25,
                   fontWeight: FontWeight.bold),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
           ),
           Expanded(
             child: ListView(

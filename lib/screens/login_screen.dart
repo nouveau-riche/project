@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../authentication/google_signin.dart';
 
-
-// remove comments
-
 class Authentication extends StatefulWidget {
   @override
   _AuthenticationState createState() => _AuthenticationState();
@@ -21,7 +18,7 @@ class _AuthenticationState extends State<Authentication> {
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.white70, Color.fromRGBO(92, 202, 250, 1)],
+            colors: [Colors.white70, const Color.fromRGBO(92, 202, 250, 1)],
             end: Alignment.bottomCenter,
             begin: Alignment.topCenter,
           ),
@@ -71,8 +68,7 @@ class _AuthenticationState extends State<Authentication> {
                         setState(() {
                           isLoading = true;
                         });
-                        //signInWithGoogle(context);
-                        Navigator.of(context).pushNamed('/tab-screen');
+                        signInWithGoogle(context);
                         setState(() {
                           isLoading = false;
                         });

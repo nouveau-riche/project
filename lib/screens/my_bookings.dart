@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
-
-// remove comments
 
 class MyBookings extends StatefulWidget {
   @override
@@ -60,7 +59,7 @@ class _MyBookingsState extends State<MyBookings>
     });
   }
 
-  //final User user = FirebaseAuth.instance.currentUser;
+  final User user = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +71,12 @@ class _MyBookingsState extends State<MyBookings>
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          //buildAppbar(user.photoURL),
-          buildAppbar(null),
+          buildAppbar(user.photoURL),
           _isVisible
               ? Container(
-                  child: Text(
+                  child: const Text(
                     'My Bookings',
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontFamily: 'Poppins',
                         fontSize: 25,
                         fontWeight: FontWeight.bold),
@@ -96,8 +94,7 @@ class _MyBookingsState extends State<MyBookings>
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('transcations')
-                      //.doc(user.uid)
-                      .doc('MITstPx9b5YMszsMveaofx5CVoL2')
+                      .doc(user.uid)
                       .collection('allTranscation')
                       .orderBy('timestamp', descending: true)
                       .snapshots(),
@@ -172,10 +169,7 @@ Widget buildAppbar(String photoUrl) {
               padding: const EdgeInsets.all(8),
               child: CircleAvatar(
                 backgroundColor: Colors.grey,
-                backgroundImage: photoUrl == null
-                    ? NetworkImage(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIhDQEvLnsTd6ohE3LObS6IvIg9ENkuk8h1A&usqp=CAU')
-                    : NetworkImage(photoUrl),
+                backgroundImage: NetworkImage(photoUrl),
               ),
             ),
           ],
@@ -207,8 +201,9 @@ Widget buildHistory(
     seconds: 0,
   ));
 
-  final DateFormat formatterEndDate = DateFormat('yMEd');
-  final String formattedEndDate = formatterEndDate.format(date1);
+  var date2 = DateTime.now();
+
+  final date3 = date1.difference(date2).inDays;
 
   final DateFormat formatter = DateFormat('yMEd');
   final String formatted = formatter.format(timestamp);
@@ -354,27 +349,33 @@ Widget buildHistory(
                               fontWeight: FontWeight.w400, fontSize: 14)),
                     ],
                   ),
-                  Row(
-                    children: [
-                      const Text('Plan End Date: ',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 15)),
-                      Text('$formattedEndDate',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 14)),
-                    ],
-                  ),
+                  isPaymentSuccessfull
+                      ? Row(
+                          children: [
+                            const Text('Plan Ends in: ',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 15)),
+                            Text(date3 >= 0 ? '$date3 days' : 'Plan Ended',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w400, fontSize: 14)),
+                          ],
+                        )
+                      : const Padding(
+                          padding: EdgeInsets.all(0),
+                        )
                 ],
               ),
               const Spacer(),
               isPaymentSuccessfull
-                  ? const Padding(
-                      padding: EdgeInsets.all(0),
+                  ? const Icon(
+                      Icons.done,
+                      color: Colors.green,
+                      size: 25,
                     )
                   : const Icon(
                       Icons.error,
                       color: Colors.red,
-                      size: 42,
+                      size: 25,
                     ),
             ],
           ),
@@ -448,6 +449,6 @@ Widget buildShimmer() {
 
 Widget buildNoBookingsDone() {
   return Center(
-    child: Text('No bokkings done!'),
+    child: const Text('No bookings done!'),
   );
 }

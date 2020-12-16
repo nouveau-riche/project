@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-
-import '../widgets/drawer.dart';
 import 'package:pie_chart/pie_chart.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
-// remove comments
+import '../widgets/drawer.dart';
+import '../widgets/carousel.dart';
 
 class PlanScreen extends StatefulWidget {
   @override
@@ -14,14 +12,15 @@ class PlanScreen extends StatefulWidget {
 }
 
 class _PlanScreenState extends State<PlanScreen> {
-  //User user = FirebaseAuth.instance.currentUser;
+  User user = FirebaseAuth.instance.currentUser;
 
   ScrollController _hideButtonController;
-  var _isVisible;
+  var _isVisible = true;
 
   @override
   initState() {
     super.initState();
+
     _isVisible = true;
     _hideButtonController = ScrollController();
     _hideButtonController.addListener(() {
@@ -45,14 +44,15 @@ class _PlanScreenState extends State<PlanScreen> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     List<Widget> list = [
-      buildContainer(context, 'Instant Wash', 0, '100'),
-      buildContainer(context, 'Monthly', 1, '600'),
-      buildContainer(context, 'Quaterly', 3, '1600'),
-      buildContainer(context, 'Half Yearly', 6, '3400'),
-      buildContainer(context, 'Yearly', 12, '6800'),
+      buildContainer(context, 'Instant Wash', 0, '100', '1'),
+      buildContainer(context, 'Monthly', 1, '600', '2'),
+      buildContainer(context, 'Quaterly', 3, '1600', '2'),
+      buildContainer(context, 'Half Yearly', 6, '3400', '2'),
+      buildContainer(context, 'Yearly', 12, '6800', '2'),
     ];
 
     return Scaffold(
@@ -61,46 +61,18 @@ class _PlanScreenState extends State<PlanScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          buildAppBar(user),
+          _isVisible ? MyCarousel() : Padding(padding: EdgeInsets.all(0),),
           Container(
-            child: Stack(
-              children: [
-                Image.asset(
-                  "assets/images/appbar.jpg",
-                  fit: BoxFit.cover,
-                ),
-                AppBar(
-                  elevation: 0,
-                  backgroundColor: Colors.transparent,
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey,
-                        backgroundImage:
-                             NetworkImage(
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSIhDQEvLnsTd6ohE3LObS6IvIg9ENkuk8h1A&usqp=CAU')
-                            // NetworkImage(user.photoURL),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            child: const Text(
+              'Our Plans',
+              style: const TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
             ),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
           ),
-          _isVisible
-              ? Container(
-                  child: Text(
-                    'Our Plans',
-                    style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                )
-              : SizedBox(
-                  height: 20,
-                ),
           Expanded(
             child: ListView.builder(
               controller: _hideButtonController,
@@ -116,11 +88,34 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 }
 
+Widget buildAppBar(User user) {
+  return Container(
+    child: Stack(
+      children: [
+        Image.asset(
+          "assets/images/appbar.jpg",
+          fit: BoxFit.cover,
+        ),
+        AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: CircleAvatar(
+                backgroundColor: Colors.grey,
+                backgroundImage: NetworkImage(user.photoURL),
+              ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
 
-
-
-Widget buildContainer(
-    BuildContext context, String type, double duration, String cost) {
+Widget buildContainer(BuildContext context, String type, double duration,
+    String cost, String times) {
   final mq = MediaQuery.of(context).size;
 
   Map<String, double> dataMap = {'Duration': duration, 'Total Duration': 12};
@@ -128,15 +123,16 @@ Widget buildContainer(
   return Container(
     height: mq.height * 0.32,
     width: mq.width,
-    margin: EdgeInsets.symmetric(horizontal: mq.width*0.018, vertical: 5),
-    padding: EdgeInsets.only(left: mq.width*0.022, right: mq.width*0.022, top: 5),
+    margin: EdgeInsets.symmetric(horizontal: mq.width * 0.018, vertical: 5),
+    padding: EdgeInsets.only(
+        left: mq.width * 0.022, right: mq.width * 0.022, top: 5),
     decoration: BoxDecoration(
       color: Colors.grey[200],
       borderRadius: const BorderRadius.only(topRight: Radius.circular(100)),
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [Colors.white38, Colors.grey[300]],
+        colors: [Colors.white38, Colors.grey[400]],
       ),
     ),
     child: Column(
@@ -172,7 +168,9 @@ Widget buildContainer(
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5,),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -194,7 +192,9 @@ Widget buildContainer(
                         ),
                       ],
                     ),
-                    const SizedBox(height: 5,),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -256,9 +256,6 @@ Widget buildContainer(
             ),
           ],
         ),
-        const Divider(
-          color: Colors.black87,
-        ),
         Expanded(
           child: Container(
             child: Row(
@@ -307,8 +304,8 @@ Widget buildContainer(
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Text(
-                      '2',
+                    Text(
+                      times,
                       style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',

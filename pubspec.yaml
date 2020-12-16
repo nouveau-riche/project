@@ -36,6 +36,8 @@ dependencies:
   shimmer: ^1.1.2
   google_sign_in: ^4.5.6
   nice_button: ^0.1.7
+  carousel_slider: ^2.2.1
+  in_app_review: ^1.0.4
 
 
 
@@ -76,6 +78,11 @@ flutter:
     - assets/images/windshield.png
     - assets/images/tyre.jpg
     - assets/images/appbar.jpg
+    - assets/images/item1.jpg
+    - assets/images/item2.jpg
+    - assets/images/item3.png
+    - assets/images/item4.jpg
+
 
   #   - images/a_dot_ham.jpeg
 
@@ -91,9 +98,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-     - family: Nunito
-       fonts:
-         - asset: assets/fonts/Nunito-Light.ttf
+#     - family: Nunito
+#       fonts:
+#         - asset: assets/fonts/Nunito-Light.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
      - family: Poppins

@@ -5,8 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import './select_plan_screen.dart';
 import '../constant/const.dart';
 
-// remove comments
-
 class BookCarWash extends StatefulWidget {
   @override
   _BookCarWashState createState() => _BookCarWashState();
