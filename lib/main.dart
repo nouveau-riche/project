@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import './screens/login_screen.dart';
 import './screens/select_plan_screen.dart';
 import './screens/tab_screen.dart';
+import './screens/welcome_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
           : Authentication(),
       debugShowCheckedModeBanner: false,
       routes: {
+        '/welcome-screen': (ctx) => Welcome(),
         '/login-screen': (ctx) => Authentication(),
         '/tab-screen': (ctx) => TabScreen(),
         '/select-plan-screen': (ctx) => SelectPlanScreen(),

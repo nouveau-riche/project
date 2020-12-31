@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 List carNames = [
   'Audi',
   'Chevrolet',
@@ -530,8 +532,21 @@ Map carModel = {
     'S-Type',
     'E-PACE'
   ],
-  'Kia': [],
-  'Land Rover': [],
+  'Kia': [
+    'Kia Sonet',
+    'Kia Seltos',
+    'Kia Carnival',
+    'Kia Rio',
+  ],
+  'Land Rover': [
+    'Land Rover Range Rover Sport',
+    'Land Rover Range Rover Evoque',
+    'Land Rover Range Rover Velar',
+    'Land Rover Discovery Sport',
+    'Land Rover Range Rover',
+    'Land Rover Defender',
+    'Land Rover Discovery',
+  ],
   'Lexus': [
     'RX',
     'LC',
@@ -550,7 +565,22 @@ Map carModel = {
     'HS',
     'SC'
   ],
-  'Mercedes': [],
+  'Mercedes': [
+    'Mercedes-Benz C-Class',
+    'Mercedes-Benz S-Class',
+    'Mercedes-Benz E-Class',
+    'Mercedes-Benz GLE',
+    'Mercedes-Benz GLS',
+    'Mercedes-Benz G-Class',
+    'Mercedes-Benz V-Class',
+    'Mercedes-Benz AMG GLE 53',
+    'Mercedes-Benz AMG GT',
+    'Mercedes-Benz EQC',
+    'Mercedes-Benz CLS',
+    'Mercedes-Benz GLC Coupe',
+    'Mercedes-Benz A-Class Sedan',
+    'Mercedes-Benz CLA 2020'
+  ],
   'Mitsubishi': [
     'Mirage',
     'Mirage G4',
@@ -669,7 +699,14 @@ Map carModel = {
     'NX',
     'Stanza'
   ],
-  'MINI': [],
+  'MINI': [
+    'Mini Cooper Convertible',
+    'Mini Countryman',
+    'Mini Cooper 3 DOOR',
+    'Mini JCW',
+    'Mini Oxford',
+    'Mini Clubman',
+  ],
   'Porsche': [
     'Macan',
     '718 Cayman',
@@ -843,7 +880,16 @@ Map carModel = {
     '240',
     '740'
   ],
-  'FIAT': [],
+  'FIAT': [
+    'Fiat Abarth 595',
+    'Fiat Abarth Punto',
+    'Fiat Linea',
+    'Fiat Avventura',
+    'Fiat Urban Cross',
+    'Fiat Linea Classic',
+    'Fiat Punto Evo',
+    'Fiat Punto Pure',
+  ],
   'Freightliner': [
     'Sprinter 2500 Crew',
     'Sprinter 3500 Cargo',
@@ -853,7 +899,6 @@ Map carModel = {
     'Sprinter 2500 Passenger',
     'Sprinter WORKER Passenger'
   ],
-
   'Ferrari': [
     '488 Spider',
     'Portofino',
@@ -880,8 +925,34 @@ Map carModel = {
     'Murcielago LP640'
   ],
   'McLaren': ['570S', '570GT', '650S', 'MP4-12C', '720S', '675LT'],
-  'Rolls - Royce': [],
-  'Suzuki': ['Swift','Baleno','Ertiga','Vitara Brezza','Dzire','Alto','Wagon R','Celerio','Ciaz','Celerio X','S-Cross',],
+  'Rolls - Royce': [
+    'Phantom',
+    'Phantom Drophead Coupe',
+    'Phantom Coupé',
+    'Ghost',
+    'Wraith',
+    'Dawn',
+    'Sweptail(one-off)',
+    'Phantom'
+  ],
+  'Suzuki': [
+    'Swift',
+    'Baleno',
+    'Ertiga',
+    'Vitara Brezza',
+    'Dzire',
+    'Alto',
+    'Wagon R',
+    'Celerio',
+    'Ciaz',
+    'Celerio X',
+    'XL6',
+    'S-Cross',
+    'S-Presso',
+    'Eeco',
+    'Ignis',
+    'Ritz'
+  ],
   'Fisker': ['Karma'],
   'Maybach': ['57', '62'],
   'Mercury': [
@@ -993,3 +1064,368 @@ Map carModel = {
   'Geo': ['Metro', 'Prizm', 'Tracker', 'Storm'],
   'Daihatsu': ['Charade', 'Rocky']
 };
+
+List<String> pinCodes = [
+  '302001',
+  '302005',
+  '302006',
+  '302007',
+  '302009',
+  '302010',
+  '302011',
+  '302015',
+  '302016',
+  '302017',
+  '302018',
+  '302019',
+  '302020',
+  '302021',
+  '302022',
+  '302023',
+  '302024',
+  '302025',
+  '302026',
+  '302029',
+  '302030',
+  '302033',
+  '302035',
+  '302039',
+  '302003',
+  '302004',
+  '302012',
+  '302013',
+  '303033'
+];
+
+List<DropdownMenuItem> pinCodesDropDownList = [
+  DropdownMenuItem(
+    child: const Text(
+      'PinCode',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 0,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302001',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 1,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302005',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 2,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302006',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 3,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302007',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 4,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302009',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 5,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302010',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 6,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302011',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 7,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302015',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 8,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302016',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 9,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302017',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 10,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302018',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 11,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302019',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 12,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302020',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 13,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302021',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 14,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302022',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 15,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302023',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 16,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302024',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 17,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302025',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 18,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302026',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 19,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302029',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 20,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302030',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 21,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302033',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 22,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302035',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 23,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302039',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 24,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302003',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 25,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302004',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 26,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302012',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 27,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '302013',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 28,
+  ),
+  DropdownMenuItem(
+    child: const Text(
+      '303033',
+      style: const TextStyle(
+          fontFamily: 'Nunito',
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+          color: Colors.black),
+    ),
+    value: 29,
+  ),
+];

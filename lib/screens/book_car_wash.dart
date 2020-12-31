@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:nice_button/nice_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import './select_plan_screen.dart';
 import '../constant/const.dart';
@@ -13,9 +15,29 @@ class BookCarWash extends StatefulWidget {
 class _BookCarWashState extends State<BookCarWash> {
   int _valueCarName = 0;
   int _valueCarModel = 0;
+  int _valuePinCode = 0;
+  String contact;
+  String address;
   TextEditingController _controller = TextEditingController();
 
   var isLoading = false;
+
+  User user = FirebaseAuth.instance.currentUser;
+
+  void initState() {
+    super.initState();
+    fetchDetails();
+  }
+
+  fetchDetails() async {
+    final ref =
+        FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+    await ref.then((value) {
+      contact = value.data()['contact'];
+      address = value.data()['address'];
+      setState(() {});
+    });
+  }
 
   List<DropdownMenuItem> modelDropDown = [
     DropdownMenuItem(
@@ -162,6 +184,7 @@ class _BookCarWashState extends State<BookCarWash> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
+                  buildPinCodeDropDown(mq.height * 0.06, mq.width * 0.8),
                   buildCarNameSelectingDropDown(
                       mq.height * 0.06, mq.width * 0.8),
                   if (_valueCarName != 0)
@@ -242,7 +265,9 @@ class _BookCarWashState extends State<BookCarWash> {
 
   Widget buildContinueButton() {
     var firstColor = Color(0xff5b86e5), secondColor = Color(0xff36d2dc);
-
+    _valuePinCode > 0
+        ? print(pinCodes[_valuePinCode - 1])
+        : print('not selected');
     return NiceButton(
         background: Colors.white,
         radius: 5,
@@ -250,31 +275,59 @@ class _BookCarWashState extends State<BookCarWash> {
         text: "Continue",
         icon: FontAwesomeIcons.arrowAltCircleRight,
         gradientColors: [secondColor, firstColor],
-        onPressed: _valueCarName != 0 && _valueCarModel != 0
-            ? () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (ctx) => SelectPlanScreen(
-                          carName: carNames[_valueCarName - 1],
-                          carModel: carModel[carNames[_valueCarName - 1]]
-                              [_valueCarModel - 1],
-                          carNumber: _controller.text,
-                        )));
-              }
+        onPressed: (address != null && contact != null)
+            ? (_valueCarName != 0 && _valueCarModel != 0
+                ? () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (ctx) => SelectPlanScreen(
+                              carName: carNames[_valueCarName - 1],
+                              carModel: carModel[carNames[_valueCarName - 1]]
+                                  [_valueCarModel - 1],
+                              carNumber: _controller.text,
+                              contact: contact,
+                              address: address,
+                              pinCode: pinCodes[_valuePinCode - 1],
+                            )));
+                  }
+                : () {
+                    buildAlertBox('Enter Correct Car Number');
+                  })
             : () {
-                buildAlertBox('Enter Correct Car Number');
+                buildAlertBox(
+                    'Upload Address and Contact Details in your Account.');
               });
   }
 
+  Widget buildPinCodeDropDown(double height, double width) {
+    return Container(
+      width: width,
+      height: height,
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 1, vertical: 10),
+      decoration: BoxDecoration(
+          color: Colors.grey[200], borderRadius: BorderRadius.circular(15)),
+      child: DropdownButtonHideUnderline(
+        child: DropdownButton(
+          value: _valuePinCode,
+          items: pinCodesDropDownList,
+          onChanged: (value) {
+            setState(() {
+              _valuePinCode = value;
+            });
+          },
+        ),
+      ),
+    );
+  }
+
   buildAlertBox(String text) {
-    print(_controller.text.length);
-    print(_valueCarModel);
-    print(_valueCarName);
     return showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
-              title: Text(text),
+              title: Text('Error'),
+              content: Text(text),
               actions: [
                 FlatButton(
                   child: const Text('Close'),

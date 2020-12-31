@@ -51,7 +51,7 @@ Future<String> signInWithGoogle(BuildContext context) async {
     user.updateProfile(displayName: user.displayName);
     saveUserInfoToFirestore(
         uid: user.uid, name: name, imageURL: imageUrl, email: email);
-    Navigator.of(context).pushNamed('/tab-screen');
+    Navigator.of(context).pushNamed('/welcome-screen');
   }
 
   return 'signInWithGoogle succeeded: $user';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -93,9 +92,9 @@ class _MyBookingsState extends State<MyBookings>
                 fit: FlexFit.loose,
                 child: StreamBuilder(
                   stream: FirebaseFirestore.instance
-                      .collection('transcations')
+                      .collection('transactions')
                       .doc(user.uid)
-                      .collection('allTranscation')
+                      .collection('allTransaction')
                       .orderBy('timestamp', descending: true)
                       .snapshots(),
                   builder: (context, snapshot) {
@@ -119,7 +118,7 @@ class _MyBookingsState extends State<MyBookings>
                                 doc['carModel'],
                                 doc['carNumber'],
                                 doc['timestamp'].toDate(),
-                                doc['success']),
+                                doc['success'],doc['pinCode'],doc['orderId']),
                           ),
                         );
                       }).toList();
@@ -187,7 +186,7 @@ Widget buildHistory(
     String carModel,
     String carNumber,
     DateTime timestamp,
-    bool isPaymentSuccessfull) {
+    bool isPaymentSuccessfull,String pinCode,String orderId) {
   final mq = MediaQuery.of(context).size;
 
   var date1 = timestamp.add(Duration(
@@ -362,7 +361,27 @@ Widget buildHistory(
                         )
                       : const Padding(
                           padding: EdgeInsets.all(0),
-                        )
+                        ),
+                  Row(
+                    children: [
+                      const Text('Pincode: ',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 15)),
+                      Text(pinCode,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 14)),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text('Order Id: ',
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 15)),
+                      Text(orderId,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w400, fontSize: 14)),
+                    ],
+                  ),
                 ],
               ),
               const Spacer(),

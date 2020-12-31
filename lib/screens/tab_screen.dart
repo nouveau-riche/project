@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../screens/accounts.dart';
 import './wash_plans.dart';
 import './book_car_wash.dart';
 import './my_bookings.dart';
+import './accounts.dart';
 
 class TabScreen extends StatefulWidget {
   @override
@@ -42,6 +44,7 @@ class _TabScreenState extends State<TabScreen> {
                 PlanScreen(),
                 BookCarWash(),
                 MyBookings(),
+                Account()
               ],
               controller: _controller,
             ),
@@ -58,7 +61,8 @@ class _TabScreenState extends State<TabScreen> {
           tabs: [
             TabData(iconData: FontAwesomeIcons.home, title: 'Home'),
             TabData(iconData: Icons.local_car_wash, title: 'Wash'),
-            TabData(iconData: FontAwesomeIcons.calendarAlt, title: 'My Bookings'),
+            TabData(iconData: FontAwesomeIcons.calendarAlt, title: 'Bookings'),
+            TabData(iconData: Icons.person, title: 'Account'),
           ],
         ));
   }

@@ -10,8 +10,17 @@ class SelectPlanScreen extends StatefulWidget {
   final String carName;
   final String carModel;
   final String carNumber;
+  final String contact;
+  final String address;
+  final String pinCode;
 
-  SelectPlanScreen({this.carName, this.carModel, this.carNumber});
+  SelectPlanScreen(
+      {this.carName,
+      this.carModel,
+      this.carNumber,
+      this.contact,
+      this.address,
+      this.pinCode});
 
   @override
   _SelectPlanScreenState createState() => _SelectPlanScreenState();
@@ -71,7 +80,11 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
         carName: widget.carName,
         carModel: widget.carModel,
         carNumber: widget.carNumber,
-        isSuccessful: true);
+        isSuccessful: true,
+        name: user.displayName,
+        contact: widget.contact,
+        address: widget.address,
+        pinCode: widget.pinCode);
     //Fluttertoast.showToast(msg: 'Payment successful');
   }
 
@@ -83,7 +96,11 @@ class _SelectPlanScreenState extends State<SelectPlanScreen> {
         carName: widget.carName,
         carModel: widget.carModel,
         carNumber: widget.carNumber,
-        isSuccessful: false);
+        isSuccessful: false,
+        name: user.displayName,
+        contact: widget.contact,
+        address: widget.address,
+        pinCode: widget.pinCode);
     //Fluttertoast.showToast(msg: 'Payment Failure');
   }
 
